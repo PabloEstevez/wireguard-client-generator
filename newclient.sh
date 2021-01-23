@@ -1,13 +1,16 @@
 #!/bin/bash
 
+# Colors
 RED='\033[0;31m'
 CYAN='\033[0;36m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
+# Input checks
 if [ $# -ne 2 ]; then printf "${RED}[-]${NC} Usage: $0 ClientName last_IP_octet\n" && exit;fi
 [ -d "./$1" ] && printf "${RED}[-]${NC} The client ${CYAN}$1${NC} already exists\n" && exit
 
+# Configuration
 SERVER="mydomain.local"
 PORT="51820"
 NETWORK="10.123.0"
@@ -15,7 +18,7 @@ NETMASK="24"
 
 mkdir $1
 # Generate client private/public keys
-wg genkey | tee $1/private.key | wg pubkey | tee $1/public.key >> /dev/null
+wg genkey | tee $1/private.key | wg pubkey | tee $1/public.key &> /dev/null
 
 # Client config file
 cat <<EOT >> $1/wg_$1.conf
@@ -31,6 +34,7 @@ Endpoint = $SERVER:$PORT
 PersistentKeepalive = 25
 EOT
 
+# Server config
 cat <<EOT >> wg0.conf
 $(echo "# $1")
 [Peer]
