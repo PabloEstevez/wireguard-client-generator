@@ -32,3 +32,6 @@ So an example of a successful execution would be:
 
 
 ![](sample_execution.png)
+
+
+This has created the client **TestClient** with IP **10.123.0.100**
