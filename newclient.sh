@@ -36,6 +36,7 @@ EOT
 
 # Server config
 cat <<EOT >> wg0.conf
+
 $(echo "# $1")
 [Peer]
 PublicKey = $(cat $1/public.key)
